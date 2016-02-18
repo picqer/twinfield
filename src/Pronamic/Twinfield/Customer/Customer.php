@@ -40,7 +40,6 @@ class Customer
     public function setOffice($office)
     {
         $this->office = $office;
-
         return $this;
     }
 
