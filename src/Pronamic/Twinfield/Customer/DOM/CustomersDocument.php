@@ -107,8 +107,14 @@ class CustomersDocument extends \DOMDocument
             // Go through each financial element and use the assigned method
             foreach ($financialsTags as $tag => $method) {
 
+                $value = $customer->$method();
+
                 // Make the text node for the method value
-                $node = $this->createTextNode($customer->$method());
+                if (is_bool($value)) {
+                    $node = $this->createTextNode($value ? 'true' : 'false');
+                } else {
+                    $node = $this->createTextNode($customer->$method());
+                }
 
                 // Make the actual element and assign the node
                 $element = $this->createElement($tag);
