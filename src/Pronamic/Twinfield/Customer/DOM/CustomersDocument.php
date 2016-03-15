@@ -72,6 +72,10 @@ class CustomersDocument extends \DOMDocument
 
             $value = $customer->$method();
 
+            if ($tag === 'code' && empty($value)) {
+                continue; // Do not add code to XML when not set to allow Twinfield to create code
+            }
+
             // Make the text node for the method value
             if (is_bool($value)) {
                 $node = $this->createTextNode($value ? 'true' : 'false');
