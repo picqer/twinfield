@@ -101,6 +101,10 @@ class InvoicesDocument extends \DOMDocument
             'headertext'           => 'getHeaderText',
             'footertext'           => 'getFooterText'
         );
+
+        if ($invoice->getOffice()) {
+            $headerTags['office'] = 'getOffice';
+        }
         
         // Go through each element and use the assigned method
         foreach ($headerTags as $tag => $method) {
