@@ -151,9 +151,15 @@ class InvoicesDocument extends \DOMDocument
 
             // Go through each element and use the assigned method
             foreach ($lineTags as $tag => $method) {
+
+                $value = $line->$method();
+
+                if ($tag == 'performancetype' && empty($value)) {
+                    continue;
+                }
                 
                 // Make text node for method value
-                $node = $this->createTextNode($line->$method());
+                $node = $this->createTextNode($value);
                 
                 // Make the actual element with tag
                 $element = $this->createElement($tag);
