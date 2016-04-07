@@ -3,6 +3,7 @@
 namespace Pronamic\Twinfield\VatCode;
 
 use Pronamic\Twinfield\Factory\FinderFactory;
+use Pronamic\Twinfield\Request\Read\Vat;
 
 /**
  * VatCodeFactory
@@ -46,4 +47,37 @@ class VatCodeFactory extends FinderFactory
         }
         return $vatCodes;
     }
+
+    public function get($code, $office = null)
+    {
+        // Attempts to process the login
+        if ($this->getLogin()->process()) {
+
+            // Get the secure service class
+            $service = $this->getService();
+
+            // No office passed, get the office from the Config
+            if (! $office) {
+                $office = $this->getConfig()->getOffice();
+            }
+            
+            // Make a request to read a single Vat. Set the required values
+            $request_vat = new Vat();
+            $request_vat
+                ->setOffice($office)
+                ->setCode($code);
+
+            // Send the Request document and set the response to this instance.
+            $response = $service->send($request_vat);
+            $this->setResponse($response);
+
+            // Return result if successful or false if not.
+            if ($response->isSuccessful()) {
+                return $response->getResponseDocument();
+            } else {
+                return false;
+            }
+        }
+    }
+
 }
