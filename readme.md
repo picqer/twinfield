@@ -10,10 +10,14 @@ Use the Twinfield SOAP Service to have your PHP application communicate directly
 
 ## Usage
 
-### General Usage Information
-Components will have Factories to simplify the request and send process of Twinfield.
-Each factory will require just the \Pronamic\Twinfield\Secure\Config() class with
-the filled in details.
+Install this package with composer:
+
+```
+composer require picqer/twinfield-php-client
+```
+
+### General Usage
+Components have Factories to simplify the request and send process of Twinfield. Each factory will require just the \Pronamic\Twinfield\Secure\Config() class with the filled in details.
 
 An example of the usage of the Configuration class.
 
@@ -30,12 +34,9 @@ $config->setOAuthParameters('clientID', 'clientSecret', 'returnURL', 'Organizati
 //the true parameter at the end tells the system to automatically redirect to twinfield to login
 ```
 
+### The current modules
 
-
-Now, to the current modules
-
-In the following example, we will use the Customer component as showcase. Although 
-this will be the method for all components ( including Invoice currently )
+In the following example, we will use the Customer component as showcase. Although this will be the method for all components ( including Invoice currently )
 
 Typically it is as follows, if using the Factories
 
@@ -124,12 +125,6 @@ $customer = $customerFactory->get('customerCode', 'office[optional]');
 The response from get() will be a \Pronamic\Twinfield\Customer\Customer object.
 
 
-#### Notes
-
-Advanced documentation coming soon. Detailing usage without the Factory class. Giving you more control
-with the response and data as well as more in-depth examples and usage recommendations.
-
-
 ## Contribute
 
 You can contribute to the development of this project. Try and keep to the way of doing things as
@@ -152,18 +147,10 @@ restructure or alteration please bring up in an issue first.
 | [Vat types](https://c3.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Finder)             |                    | :white_check_mark: |                    |                    | Pronamic/Twinfield/VatCode                                                                                              |
 
 
-## Build
-
-*	npm install
-*	composer install
-
-
 ## Links
 
 * [Twinfield API Documentation site](https://c1.twinfield.com/webservices/documentation/)
 * [Twinfield Library for Python](https://bitbucket.org/vanschelven/twinfield)
-* [Using Grunt for PHP](https://chrsm.org/post/using-grunt-for-php/)
-* [Using Grunt with PHP Quality Assurance Tools](http://mariehogebrandt.se/articles/using-grunt-php-quality-assurance-tools/)
 
 
 ## Authors
@@ -171,11 +158,12 @@ restructure or alteration please bring up in an issue first.
 *	[Pronamic](http://pronamic.nl/)
 *	[Remco Tolsma](http://remcotolsma.nl/)
 *   [Emile Bons](http://www.emilebons.nl)
+*   [Stephan Groen](https://github.com/stephangroen)
 
 
 ## License
 
-Copyright 2009-2013 Pronamic.
+Copyright 2009-2017 Pronamic.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
