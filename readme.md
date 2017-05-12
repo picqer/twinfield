@@ -3,7 +3,8 @@ A PHP library for Twinfield Integration. Developed by [Remco Tolsma](http://remc
 
 Use the Twinfield SOAP Service to have your PHP application communicate directly with your Twinfield account.
 
-**This package** provides a proper semver-versioned fork of the package, for save usage with composer in your projects.
+## Why this fork?
+**This package** provides a proper semver-versioned fork of the package, for safe usage with composer in your projects.
 
 ---
 
