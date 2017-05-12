@@ -1,13 +1,11 @@
-# Twinfield  [![Build Status](https://secure.travis-ci.org/pronamic/twinfield.png?branch=develop)](http://travis-ci.org/pronamic/twinfield)
+# Twinfield
 A PHP library for Twinfield Integration. Developed by [Remco Tolsma](http://remcotolsma.nl/) and [Leon Rowland](http://leon.rowland.nl/) from [Pronamic](http://pronamic.nl/).
+
 Use the Twinfield SOAP Service to have your PHP application communicate directly with your Twinfield account.
 
+**This package** provides a proper semver-versioned fork of the package, for save usage with composer in your projects.
+
 ---
-
-## Autoloading
-
-The classes follow the PSR2 naming convention.
-
 
 ## Usage
 
