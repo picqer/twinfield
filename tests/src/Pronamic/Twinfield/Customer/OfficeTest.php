@@ -1,10 +1,12 @@
 <?php
+
 namespace Pronamic\Twinfield\Secure;
 
+use PHPUnit\Framework\TestCase;
 use Pronamic\Twinfield\Customer\Customer;
 use Pronamic\Twinfield\Customer\DOM\CustomersDocument;
 
-class CustomerOfficeTest extends \PHPUnit_Framework_TestCase
+class CustomerOfficeTest extends TestCase
 {
     /**
      * @var Config

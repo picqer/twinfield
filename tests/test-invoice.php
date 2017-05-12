@@ -1,6 +1,8 @@
 <?php
 
-class InvoiceTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class InvoiceTest extends TestCase {
     
     public function testInvoiceMapperRespondsWithInvoiceEntity() {
         
