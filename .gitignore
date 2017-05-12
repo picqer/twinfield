@@ -1,7 +1,5 @@
-# Composer #
-############
 /vendor
-
-# Grunt #
-#########
 /node_modules
+.DS_Store
+.idea
+composer.lock
