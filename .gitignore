@@ -1,6 +1,7 @@
-/nbproject
-/examples
+# Composer #
+############
 /vendor
-autoload.php
-.project
-.buildpath
+
+# Grunt #
+#########
+/node_modules

@@ -13,7 +13,7 @@ namespace Pronamic\Twinfield\Request\Read;
  */
 class Invoice extends Read
 {
-    /**
+     /**
      * Sets the <type> to salesinvoice for the request
      * and sets the office, code and number if they
      * are present.
@@ -29,17 +29,20 @@ class Invoice extends Read
 
         $this->add('type', 'salesinvoice');
         
-        if(null !== $office)
+        if (null !== $office) {
             $this->setOffice($office);
+        }
         
-        if(null !== $code)
+        if (null !== $code) {
             $this->setCode($code);
+        }
         
-        if(null !== $number)
+        if (null !== $number) {
             $this->setNumber($number);
+        }
     }
 
-    /**
+     /**
      * Sets the office code for this salesinvoice
      * request. It is an optional field.
      * 
@@ -53,20 +56,20 @@ class Invoice extends Read
         return $this;
     }
 
-   /**
-    * Sets the code for this salesinvoice request.
-    * 
-    * @access public
-    * @param string $code
-    * @return \Pronamic\Twinfield\Request\Read\Invoice
-    */
+     /**
+     * Sets the code for this salesinvoice request.
+     *
+     * @access public
+     * @param string $code
+     * @return \Pronamic\Twinfield\Request\Read\Invoice
+     */
     public function setCode($code)
     {
         $this->add('code', $code);
         return $this;
     }
 
-    /**
+     /**
      * Sets the invoicenumber for this request.
      * 
      * @access public

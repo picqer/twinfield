@@ -62,7 +62,7 @@ class Login
      * @access private
      * @var string
      */
-    private $sessionID;
+    public $sessionID;
 
     /**
      * The server cluster used for future XML
@@ -71,7 +71,7 @@ class Login
      * @access private
      * @var string
      */
-    private $cluster;
+    public $cluster = 'https://c3.twinfield.com';
 
     /**
      * If the login has been processed and was
@@ -85,9 +85,8 @@ class Login
     public function __construct(Config $config)
     {
         $this->config = $config;
-
-        $this->soapLoginClient = new SoapClient($this->loginWSDL,
-            array('trace' => 1));
+        $this->cluster = !is_null($config->cluster) ? $config->cluster : $this->cluster;
+        $this->soapLoginClient = new SoapClient($this->loginWSDL, array('trace' => 1));
     }
 
     /**
@@ -104,10 +103,15 @@ class Login
     public function process()
     {
         // Process logon
-        $response = $this->soapLoginClient->Logon($this->config->getCredentials());
-
+        if ($this->config->getClientToken() != '') {
+            $response = $this->soapLoginClient->OAuthLogon($this->config->getCredentials());
+            $result = $response->OAuthLogonResult;
+        } else {
+            $response = $this->soapLoginClient->Logon($this->config->getCredentials());
+            $result = $response->LogonResult;
+        }
         // Check response is successful
-        if('Ok' == $response->LogonResult) {
+        if ($result == 'Ok') {
             // Response from the logon request
             $this->loginResponse = $this->soapLoginClient->__getLastResponse();
 
@@ -122,7 +126,6 @@ class Login
             // Gets Cluster URL
             $cluster       = $envelope->getElementsByTagName('cluster');
             $this->cluster = $cluster->item(0)->textContent;
-
             // This login object is processed!
             $this->processed = true;
 
@@ -144,31 +147,38 @@ class Login
      */
     public function getHeader()
     {
-        if(! $this->processed)
+        if (! $this->processed || is_null($this->cluster)) {
             $this->process();
+        }
 
-        return new \SoapHeader('http://www.twinfield.com/', 'Header',
-            array('SessionID' => $this->sessionID));
+        return new \SoapHeader(
+            'http://www.twinfield.com/',
+            'Header',
+            array('SessionID' => $this->sessionID)
+        );
     }
 
     /**
      * Gets the soap client with the headers attached
      *
-     * Will automaticly login if haven't already on this instance
+     * Will automatically login if haven't already on this instance
      *
      * @since 0.0.1
      *
+	 * @param string|null $wsdl the wsdl to use. If null, the clusterWSDL is used.
      * @access public
      * @return \SoapClient
      */
-    public function getClient()
+    public function getClient($wsdl = null)
     {
-        if(! $this->processed)
+        if (! $this->processed) {
             $this->process();
-
+        }
+		$wsdl = is_null($wsdl) ? $this->clusterWSDL : $wsdl;
+        $header = $this->getHeader();
         // Makes a new client, and assigns the header to it
-        $client = new SoapClient(sprintf($this->clusterWSDL, $this->cluster));
-        $client->__setSoapHeaders($this->getHeader());
+        $client = new SoapClient(sprintf($wsdl, $this->cluster), $this->config->getSoapClientOptions());
+        $client->__setSoapHeaders($header);
 
         return $client;
     }

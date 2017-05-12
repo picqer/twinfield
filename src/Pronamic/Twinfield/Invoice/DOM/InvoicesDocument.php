@@ -81,7 +81,7 @@ class InvoicesDocument extends \DOMDocument
         $customer = $invoice->getCustomer();
 
         // <customer>
-        $customerNode    = $this->createTextNode($customer->getID());
+        $customerNode    = $this->createTextNode($customer->getCode());
         $customerElement = $this->createElement('customer');
         $customerElement->appendChild($customerNode);
         $headerElement->appendChild($customerElement);
@@ -101,9 +101,13 @@ class InvoicesDocument extends \DOMDocument
             'headertext'           => 'getHeaderText',
             'footertext'           => 'getFooterText'
         );
+
+        if ($invoice->getOffice()) {
+            $headerTags['office'] = 'getOffice';
+        }
         
         // Go through each element and use the assigned method
-        foreach($headerTags as $tag => $method) {
+        foreach ($headerTags as $tag => $method) {
             
             // Make text node for method value
             $node = $this->createTextNode($invoice->$method());
@@ -132,21 +136,30 @@ class InvoicesDocument extends \DOMDocument
             'freetext1'       => 'getFreeText1',
             'freetext2'       => 'getFreeText2',
             'freetext3'       => 'getFreeText3',
-            'performancedate' => 'getPerformanceDate'
+            'performancedate' => 'getPerformanceDate',
+            'performancetype' => 'getPerformanceType',
+            'dim1'            => 'getDim1',
         );
 
         // Loop through all orders, and add those elements
-        foreach($invoice->getLines() as $line) {
+        foreach ($invoice->getLines() as $line) {
 
             // Make a new line element, and add to <lines>
             $lineElement = $this->createElement('line');
+            $lineElement->setAttribute('id', $line->getID());
             $linesElement->appendChild($lineElement);
 
             // Go through each element and use the assigned method
-            foreach($lineTags as $tag => $method) {
+            foreach ($lineTags as $tag => $method) {
+
+                $value = $line->$method();
+
+                if ($tag == 'performancetype' && empty($value)) {
+                    continue;
+                }
                 
                 // Make text node for method value
-                $node = $this->createTextNode($line->$method());
+                $node = $this->createTextNode($value);
                 
                 // Make the actual element with tag
                 $element = $this->createElement($tag);

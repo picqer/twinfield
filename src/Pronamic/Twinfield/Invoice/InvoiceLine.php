@@ -20,6 +20,8 @@ class InvoiceLine
     private $freeText2;
     private $freeText3;
     private $performanceDate;
+    private $performanceType;
+    private $dim1;
 
     public function __construct($quantity = null, $article = null, $freeText1 = null, $freeText2 = null)
     {
@@ -34,6 +36,12 @@ class InvoiceLine
     public function getID()
     {
         return $this->ID;
+    }
+
+    public function setID($ID)
+    {
+        $this->ID = $ID;
+        return $this;
     }
 
     public function getQuantity()
@@ -198,7 +206,7 @@ class InvoiceLine
     public function setUnitsPriceInc($unitsPriceInc)
     {
         $this->unitsPriceInc = $unitsPriceInc;
-        return this;
+        return $this;
     }
 
     public function getPerformanceDate()
@@ -209,6 +217,28 @@ class InvoiceLine
     public function setPerformanceDate($performanceDate)
     {
         $this->performanceDate = $performanceDate;
+        return $this;
+    }
+
+    public function getPerformanceType()
+    {
+        return $this->performanceType;
+    }
+
+    public function setPerformanceType($performanceType)
+    {
+        $this->performanceType = $performanceType;
+        return $this;
+    }
+
+    public function getDim1()
+    {
+        return $this->dim1;
+    }
+
+    public function setDim1($dim1)
+    {
+        $this->dim1 = $dim1;
         return $this;
     }
 }
