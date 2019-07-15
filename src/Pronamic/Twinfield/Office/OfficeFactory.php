@@ -35,7 +35,7 @@ class OfficeFactory extends FinderFactory
     {
         $response = $this->searchFinder(self::TYPE_OFFICES, $pattern, $field, $firstRow, $maxRows, $options);
         $result = $response->data->Items->ArrayOfString;
-        if(count($result) == 1) {
+        if(count((array)$result) == 1) {
             $result = [$result];
         }
 
