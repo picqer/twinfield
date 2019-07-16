@@ -6,7 +6,7 @@
         "twinfield"
     ],
     "homepage": "http://pronamic.nl",
-    "license": "GPL",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Remco Tolsma",
@@ -15,6 +15,10 @@
         {
             "name": "Leon Rowland",
             "email": "leon@pronamic.nl"
+        },
+        {
+            "name": "Stephan Groen",
+            "email": "info@picqer.com"
         }
     ],
     "require": {
