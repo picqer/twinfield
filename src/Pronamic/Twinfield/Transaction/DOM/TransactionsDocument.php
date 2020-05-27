@@ -86,7 +86,9 @@ class TransactionsDocument extends \DOMDocument
             $valueElement = $this->createElement('value', $value);
 
             if ($transactionLine->getType() != 'total') {
-                $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
+                if ($transactionLine->getVatCode() !== null) {
+                    $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
+                }
             }
 
             $descriptionNode = $this->createTextNode($transactionLine->getDescription());
@@ -116,7 +118,10 @@ class TransactionsDocument extends \DOMDocument
             }
 
             if ($transactionLine->getType() != 'total') {
-                $lineElement->appendChild($vatCodeElement);
+                if ($transactionLine->getVatCode() !== null) {
+                     $lineElement->appendChild($vatCodeElement);
+                }
+
             }
 
             $lineElement->appendChild($descriptionElement);
