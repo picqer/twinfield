@@ -93,6 +93,12 @@ class TransactionsDocument extends \DOMDocument
             $descriptionElement = $this->createElement('description');
             $descriptionElement->appendChild($descriptionNode);
 
+            $debitCreditNode = $this->createTextNode($transactionLine->getDebitCredit() );
+            $debitCreditElement = $this->createElement('debitcredit');
+            $debitCreditElement->appendChild($debitCreditNode);
+            $lineElement->appendChild($debitCreditElement);
+
+
             $lineElement->appendChild($dim1Element);
             $lineElement->appendChild($dim2Element);
             $lineElement->appendChild($valueElement);
