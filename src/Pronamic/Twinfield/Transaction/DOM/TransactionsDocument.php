@@ -94,6 +94,7 @@ class TransactionsDocument extends \DOMDocument
             if ($transactionLine->getType() != 'total') {
                 if ($transactionLine->getVatCode() !== null) {
                     $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
+
                 }
             }
 
