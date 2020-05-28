@@ -87,9 +87,18 @@ class TransactionsDocument extends \DOMDocument
 
             $dim1Element = $this->createElement('dim1', $transactionLine->getDim1());
             $dim2Element = $this->createElement('dim2', $transactionLine->getDim2());
+
             $value = $transactionLine->getValue();
-            $value = number_format($value, 2, '.', '');
+            //$value = number_format($value, 2, '.', '');
             $valueElement = $this->createElement('value', $value);
+
+            if ($transactionLine->getVatTotal() !== null && $transactionLine->getType() == 'total') {
+                $vattotalElement = $this->createElement('vattotal', $transactionLine->getVatTotal());
+                $lineElement->appendChild($vattotalElement);
+                $vattotalElement = $this->createElement('vatbasetotal', $transactionLine->getVatTotal());
+                $lineElement->appendChild($vattotalElement);
+            }
+
 
             if ($transactionLine->getType() != 'total') {
                 if ($transactionLine->getVatCode() !== null) {
@@ -135,3 +144,4 @@ class TransactionsDocument extends \DOMDocument
         }
     }
 }
+
