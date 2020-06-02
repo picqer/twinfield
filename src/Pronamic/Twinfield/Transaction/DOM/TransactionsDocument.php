@@ -95,8 +95,6 @@ class TransactionsDocument extends \DOMDocument
             if ($transactionLine->getVatTotal() !== null && $transactionLine->getType() == 'total') {
                 $vattotalElement = $this->createElement('vattotal', $transactionLine->getVatTotal());
                 $lineElement->appendChild($vattotalElement);
-                $vattotalElement = $this->createElement('vatbasetotal', $transactionLine->getVatTotal());
-                $lineElement->appendChild($vattotalElement);
             }
 
 
