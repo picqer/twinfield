@@ -54,16 +54,22 @@ class TransactionsDocument extends \DOMDocument
         $officeElement = $this->createElement('office', $transaction->getOffice());
         $codeElement = $this->createElement('code', $transaction->getCode());
         $dateElement = $this->createElement('date', $transaction->getDate());
-        $dueDateElement = $this->createElement('duedate', $transaction->getDueDate());
         $invoiceNumberElement = $this->createElement('invoicenumber', $transaction->getInvoiceNumber());
         $freetext1Element = $this->createElement('freetext1', $transaction->getFreetext1());
         $freetext2Element = $this->createElement('freetext2', $transaction->getFreetext2());
         $freetext3Element = $this->createElement('freetext3', $transaction->getFreetext3());
 
+        if ($transaction->getDueDate() !== null) {
+             $dueDateElement = $this->createElement('duedate', $transaction->getDueDate());
+             $headerElement->appendChild($dueDateElement);
+        }
+
+
+
         $headerElement->appendChild($officeElement);
         $headerElement->appendChild($codeElement);
         $headerElement->appendChild($dateElement);
-        $headerElement->appendChild($dueDateElement);
+
         $headerElement->appendChild($invoiceNumberElement);
         $headerElement->appendChild($freetext1Element);
         $headerElement->appendChild($freetext2Element);
@@ -81,17 +87,31 @@ class TransactionsDocument extends \DOMDocument
 
             $dim1Element = $this->createElement('dim1', $transactionLine->getDim1());
             $dim2Element = $this->createElement('dim2', $transactionLine->getDim2());
+
             $value = $transactionLine->getValue();
-            $value = number_format($value, 2, '.', '');
+            //$value = number_format($value, 2, '.', '');
             $valueElement = $this->createElement('value', $value);
 
+            if ($transactionLine->getVatTotal() !== null && $transactionLine->getType() == 'total') {
+                $vattotalElement = $this->createElement('vattotal', $transactionLine->getVatTotal());
+                $lineElement->appendChild($vattotalElement);
+            }
+
             if ($transactionLine->getType() != 'total') {
-                $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
+                if ($transactionLine->getVatCode() !== null) {
+                    $vatCodeElement = $this->createElement('vatcode', $transactionLine->getVatCode());
+                }
             }
 
             $descriptionNode = $this->createTextNode($transactionLine->getDescription());
             $descriptionElement = $this->createElement('description');
             $descriptionElement->appendChild($descriptionNode);
+
+            $debitCreditNode = $this->createTextNode($transactionLine->getDebitCredit() );
+            $debitCreditElement = $this->createElement('debitcredit');
+            $debitCreditElement->appendChild($debitCreditNode);
+            $lineElement->appendChild($debitCreditElement);
+
 
             $lineElement->appendChild($dim1Element);
             $lineElement->appendChild($dim2Element);
@@ -110,10 +130,53 @@ class TransactionsDocument extends \DOMDocument
             }
 
             if ($transactionLine->getType() != 'total') {
-                $lineElement->appendChild($vatCodeElement);
+                if ($transactionLine->getVatCode() !== null) {
+                     $lineElement->appendChild($vatCodeElement);
+                }
+
             }
 
             $lineElement->appendChild($descriptionElement);
+
+
+            if ($transactionLine->getMatchesNumber()) {
+
+
+                $matchesElement = $this->createElement('matches');
+                $matchesSetElement = $this->createElement('set');
+
+                $matchesDateElement = $this->createElement('matchdate', $transactionLine->getMatchesDate());
+                $matchesLinesElement = $this->createElement('lines');
+                $matchesLineElement = $this->createElement('line');
+
+                $matchesCodeElement = $this->createElement('code',$transactionLine->getMatchesCode());
+                $matchesNumberElement = $this->createElement('number',$transactionLine->getMatchesNumber());
+                $matchesSublineElement = $this->createElement('line',$transactionLine->getMatchesLine());
+                $matchesMethodElement = $this->createElement('method',$transactionLine->getMatchesMethod());
+                $matchesMatchvalueElement = $this->createElement('matchvalue',$transactionLine->getMatchesMatchvalue());
+
+
+                $matchesLineElement->appendChild($matchesCodeElement);
+                $matchesLineElement->appendChild($matchesNumberElement);
+                $matchesLineElement->appendChild($matchesSublineElement);
+                $matchesLineElement->appendChild($matchesMethodElement);
+                $matchesLineElement->appendChild($matchesMatchvalueElement);
+
+
+
+                $matchesLinesElement->appendChild($matchesLineElement);
+                $matchesSetElement->appendChild($matchesLinesElement);
+                $matchesSetElement->appendChild($matchesDateElement);
+                $matchesElement->appendChild($matchesSetElement);
+                $lineElement->appendChild($matchesElement);
+
+
+
+            }
+
+
+
         }
     }
 }
+

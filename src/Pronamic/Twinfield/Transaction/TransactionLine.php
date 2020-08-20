@@ -33,6 +33,14 @@ class TransactionLine
     private $valueOpen;
     private $baseValueOpen;
     private $matchStatus;
+    private $matchesDate;
+    private $matchesCode;
+    private $matchesNumber;
+    private $matchesLine;
+    private $matchesMethod;
+    private $matchesMatchvalue;
+
+
 
     const PERFORMANCETYPE_SERVICES = 'services';
     const PERFORMANCETYPE_GOODS = 'goods';
@@ -318,6 +326,81 @@ class TransactionLine
 
         return $this;
     }
+
+    public function getMatchesDate()
+    {
+        return $this->matchesDate;
+    }
+
+    public function setMatchesDate($matchesDate)
+    {
+        $this->matchesDate = $matchesDate;
+
+        return $this;
+    }
+
+    public function getMatchesCode()
+    {
+        return $this->matchesCode;
+    }
+
+    public function setMatchesCode($matchesCode)
+    {
+        $this->matchesCode = $matchesCode;
+
+        return $this;
+    }
+
+
+    public function getMatchesNumber()
+    {
+        return $this->matchesNumber;
+    }
+
+    public function setMatchesNumber($matchesNumber)
+    {
+        $this->matchesNumber = $matchesNumber;
+
+        return $this;
+    }
+
+
+    public function getMatchesLine()
+    {
+        return $this->matchesLine;
+    }
+
+    public function setMatchesLine($matchesLine)
+    {
+        $this->matchesLine = $matchesLine;
+
+        return $this;
+    }
+
+    public function getMatchesMethod()
+    {
+        return $this->matchesMethod;
+    }
+
+    public function setMatchesMethod($matchesMethod)
+    {
+        $this->matchesMethod = $matchesMethod;
+
+        return $this;
+    }
+
+    public function getMatchesMatchvalue()
+    {
+        return $this->matchesMatchvalue;
+    }
+
+    public function setMatchesMatchvalue($matchesMatchvalue)
+    {
+        $this->matchesMatchvalue = $matchesMatchvalue;
+
+        return $this;
+    }
+
 
     /**
      * @return mixed

@@ -66,7 +66,10 @@ class TransactionFactory extends ParentFactory
 
             // Send the DOM document request and set the response
             $response = $service->send($transactionsDocument);
+
+
             $this->setResponse($response);
+
 
             if ($response->isSuccessful()) {
                 return true;
