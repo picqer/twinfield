@@ -179,3 +179,4 @@ class TransactionsDocument extends \DOMDocument
         }
     }
 }
+
