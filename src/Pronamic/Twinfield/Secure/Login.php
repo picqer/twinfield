@@ -30,10 +30,10 @@ class Login
     protected $loginWSDL    = 'https://login.twinfield.com/webservices/session.asmx?wsdl';
     protected $clusterWSDL  = '%s/webservices/processxml.asmx?wsdl';
     protected $xmlNamespace = 'http://schemas.xmlsoap.org/soap/envelope/';
-    
+
     /**
      * Holds the passed in Config instance
-     * 
+     *
      * @access private
      * @var Pronamic\Twinfield\Secure\Config
      */
@@ -103,7 +103,10 @@ class Login
     public function process()
     {
         // Process logon
-        if ($this->config->getClientToken() != '') {
+        if ($this->config->getAccessToken() != '') {
+            $response = $this->soapLoginClient->AccessTokenLogon($this->config->getCredentials());
+            $result = $response->AccessTokenLogonResult;
+        } elseif ($this->config->getClientToken() != '') {
             $response = $this->soapLoginClient->OAuthLogon($this->config->getCredentials());
             $result = $response->OAuthLogonResult;
         } else {
@@ -151,11 +154,16 @@ class Login
             $this->process();
         }
 
-        return new \SoapHeader(
-            'http://www.twinfield.com/',
-            'Header',
-            array('SessionID' => $this->sessionID)
-        );
+        $header = array('SessionID' => $this->sessionID);
+
+        if ($this->config->getOAuth2Parameters()['accessToken'] != '') {
+            $header = array(
+                'AccessToken' => $this->config->getOAuth2Parameters()['accessToken'],
+                'CompanyCode' => $this->config->getOffice(),
+            );
+        }
+
+        return new \SoapHeader('http://www.twinfield.com/', 'Header', $header);
     }
 
     /**
