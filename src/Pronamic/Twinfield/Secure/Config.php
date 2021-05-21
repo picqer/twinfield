@@ -195,7 +195,9 @@ class Config
      */
     public function getCredentials()
     {
-        if ($this->oauthCredentials['clientToken'] != '') {
+        if ($this->oauth2Credentials['accessToken'] != '') {
+            return $this->getOAuth2Parameters();
+        } elseif ($this->oauthCredentials['clientToken'] != '') {
             return $this->getOAuthParameters();
         } else {
             return $this->credentials;
