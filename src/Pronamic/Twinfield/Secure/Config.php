@@ -55,6 +55,17 @@ class Config
 
 
     /**
+     * Holds all the OAuth 2.0 login details for this config object.
+     *
+     * @access private
+     * @var array
+     */
+    private $oauth2Credentials = array(
+        'accessToken' => ''
+    );
+
+
+    /**
      * Holds all the OAuth class
      *
      * @access private
@@ -68,6 +79,33 @@ class Config
      * @var Array
      */
     private $soapClientOptions = array();
+
+    /**
+     * Sets the OAuth 2.0 details for this config object.
+     *
+     * @access public
+     * @param $accessToken
+     * @param $org
+     * @param $office
+     * @return void
+     */
+    public function setOAuth2Parameters($accessToken, $org, $office)
+    {
+        $this->oauth2Credentials['accessToken'] = $accessToken;
+
+        $this->setOrganisationAndOffice($org, $office);
+    }
+
+    /**
+     * Get the OAuth 2.0 details for this config object.
+     *
+     * @access public
+     * @return array
+     */
+    public function getOAuth2Parameters()
+    {
+        return $this->oauth2Credentials;
+    }
 
     /**
      * Sets the oAuth details for this config object.
@@ -157,7 +195,9 @@ class Config
      */
     public function getCredentials()
     {
-        if ($this->oauthCredentials['clientToken'] != '') {
+        if ($this->oauth2Credentials['accessToken'] != '') {
+            return $this->getOAuth2Parameters();
+        } elseif ($this->oauthCredentials['clientToken'] != '') {
             return $this->getOAuthParameters();
         } else {
             return $this->credentials;
@@ -214,6 +254,17 @@ class Config
     public function getOffice()
     {
         return $this->credentials['office'];
+    }
+
+    /**
+     * Get the set access token.
+     *
+     * @access public
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->oauth2Credentials['accessToken'];
     }
 
     /**
